@@ -17,14 +17,14 @@ public class UserController {
 
     @GetMapping("/{id}")
     public User getUserById(@PathVariable("id") Long id) {
-        return userService.getUserById(id)
+        return userService.getById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public User createUser(@RequestBody User user) {
-        User usr = userService.saveUser(user);
+        User usr = userService.save(user);
         if (usr == null) {
             throw new ResponseStatusException(HttpStatus.CONFLICT);
         }
@@ -33,15 +33,15 @@ public class UserController {
 
     @PutMapping("/{id}")
     public User updateUser(@PathVariable("id") Long id, @RequestBody User user) {
-        return userService.updateUser(id, user);
+        return userService.update(id, user);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUserById(@PathVariable("id") Long id) {
-        if (userService.getUserById(id).isEmpty()) {
+        if (userService.getById(id).isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        userService.deleteUserById(id);
+        userService.delete(id);
     }
 }
