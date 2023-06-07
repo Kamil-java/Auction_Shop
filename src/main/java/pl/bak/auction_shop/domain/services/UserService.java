@@ -26,9 +26,8 @@ public class UserService implements CrudService<Long, User> {
     }
 
     public Optional<User> getUserByUsername(String username) throws UsernameNotFoundException {
-        User user1 = userDummyDB.getDb().values().stream().filter(user -> user.getUsername().equals(username)).toList().get(0);
-        System.out.println(user1);
-        return Optional.ofNullable(user1);
+        User usr = userDummyDB.getDb().values().stream().filter(user -> user.getUsername().equals(username)).toList().get(0);
+        return Optional.ofNullable(usr);
     }
 
     @Override

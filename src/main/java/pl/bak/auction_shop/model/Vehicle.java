@@ -45,6 +45,6 @@ public class Vehicle extends Product implements SalesRules {
 
     @Override
     public BigDecimal discount(int percent, BigDecimal price) {
-        return price.subtract(price.multiply(BigDecimal.valueOf(percent)));
+        return price.multiply(BigDecimal.valueOf(percent));
     }
 }

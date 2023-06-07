@@ -2,9 +2,11 @@ package pl.bak.auction_shop.model;
 
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 
 public class User implements UserDetails {
 
@@ -16,6 +18,9 @@ public class User implements UserDetails {
     private String email;
     private boolean isEnabled = true;
     private boolean isLocked = false;
+
+    private Role role;
+
 
     public Long getId() {
         return id;
@@ -76,9 +81,10 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
@@ -103,6 +109,22 @@ public class User implements UserDetails {
         this.isLocked = locked;
     }
 
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(boolean locked) {
+        isLocked = locked;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -114,6 +136,7 @@ public class User implements UserDetails {
                 ", email='" + email + '\'' +
                 ", isEnabled=" + isEnabled +
                 ", isLocked=" + isLocked +
+                ", role=" + role +
                 '}';
     }
 }
