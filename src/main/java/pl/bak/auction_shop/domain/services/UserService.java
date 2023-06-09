@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import pl.bak.auction_shop.data.DummyDB;
 import pl.bak.auction_shop.domain.dao.CrudService;
 import pl.bak.auction_shop.dto.UserDto;
+import pl.bak.auction_shop.model.Role;
 import pl.bak.auction_shop.model.User;
 
 import java.util.Map;
@@ -26,12 +27,17 @@ public class UserService implements CrudService<Long, User> {
     }
 
     public Optional<User> getUserByUsername(String username) throws UsernameNotFoundException {
-        User usr = userDummyDB.getDb().values().stream().filter(user -> user.getUsername().equals(username)).toList().get(0);
-        return Optional.ofNullable(usr);
+        return getDummyDB().values().stream().filter(user -> user.getUsername().equals(username)).findFirst();
+    }
+
+    public Map<Long, User> getDummyDB() {
+        return userDummyDB.getDb();
     }
 
     @Override
     public User save(User user) {
+        user.setRole(Role.USER);
+        user.setEnabled(true);
         Map<Long, User> db = userDummyDB.getDb();
         Set<String> emailSet = db.values().stream().map(User::getEmail).collect(Collectors.toSet());
         if (emailSet.contains(user.getEmail())) {

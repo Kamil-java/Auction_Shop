@@ -1,6 +1,9 @@
 package pl.bak.auction_shop.model;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,6 +11,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User implements UserDetails {
 
     private Long id;
@@ -18,9 +24,7 @@ public class User implements UserDetails {
     private String email;
     private boolean isEnabled = true;
     private boolean isLocked = false;
-
     private Role role;
-
 
     public Long getId() {
         return id;

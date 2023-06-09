@@ -6,8 +6,10 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.springframework.security.core.GrantedAuthority;
 import pl.bak.auction_shop.model.User;
 
+import java.util.Collection;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -38,11 +40,13 @@ public class UserDto extends User {
     private String password;
 
     public UserDto() {
+        super();
     }
 
     public UserDto(@NotBlank String firstName, @NotBlank String lastName,
                    @NotBlank @Email String email, @NotBlank String username,
                    @NotBlank @Size(min = 3, max = 23) String password) {
+        super();
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -116,16 +120,26 @@ public class UserDto extends User {
         return super.isEnabled();
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
+    @Override
     public String getPassword() {
         return password;
     }
 
+    @Override
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return super.getAuthorities();
+    }
+
+    @Override
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    public boolean isLocked() {
+        return super.isLocked();
     }
 
     @Override
